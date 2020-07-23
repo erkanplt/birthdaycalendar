@@ -10,6 +10,7 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { ListComponent } from './list/list.component';
+import { HttpClientModule } from '@angular/common/http';
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
   interactionPlugin
@@ -28,7 +29,8 @@ FullCalendarModule.registerPlugins([
     BrowserModule,
     AppRoutingModule,
     NgbModule,
-    FullCalendarModule
+    FullCalendarModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

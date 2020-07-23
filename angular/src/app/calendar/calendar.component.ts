@@ -13,12 +13,12 @@ export class CalendarComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
+  
   calendarOptions: CalendarOptions = {
     height: 600,
     locale: trLocale,
     initialView: 'dayGridMonth',
-    dateClick: this.handleDateClick.bind(this),
+    dateClick: this.handleDateClick.bind(this), 
     events: [
       { title: 'Büşra Aydın', date: '2020-07-27' },
       { title: 'Ali Orhan', date: '2020-07-30' }

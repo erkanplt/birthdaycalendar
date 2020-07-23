@@ -1,6 +1,11 @@
+import { Birthday } from './../birthday/birthday';
 import { Component, OnInit } from '@angular/core';
 import { CalendarOptions } from '@fullcalendar/angular';
 import trLocale from '@fullcalendar/core/locales/tr';
+import { Observable } from 'rxjs';
+import { BirthdayService } from '../service/birthday.service';
+import { formatDate } from '@angular/common';
+
 
 @Component({
   selector: 'app-calendar',
@@ -9,24 +14,38 @@ import trLocale from '@fullcalendar/core/locales/tr';
 })
 export class CalendarComponent implements OnInit {
 
-  constructor() { }
+  data = [];
+  birthdays: Observable<Birthday[]>
+
+  constructor(private birthdayService: BirthdayService) { }
 
   ngOnInit(): void {
+
+    this.reloadData();
+
   }
-  
+
+  reloadData() {
+    this.birthdays = this.birthdayService.getBirthdaysList();
+    this.birthdays.subscribe(elements => {
+      elements.forEach((day) => {
+        const formatTempDate = formatDate(day.date, 'yyyy-MM-dd', 'en-US');
+        this.data.push({ title: day.title, date: formatTempDate, color: '#57de64' })
+        this.calendarOptions.events = this.data;
+      })
+    })
+  }
+
   calendarOptions: CalendarOptions = {
     height: 600,
     locale: trLocale,
     initialView: 'dayGridMonth',
-    dateClick: this.handleDateClick.bind(this), 
-    events: [
-      { title: 'Büşra Aydın', date: '2020-07-27' },
-      { title: 'Ali Orhan', date: '2020-07-30' }
-    ]
+    dateClick: this.handleDateClick.bind(this)
   };
+
   handleDateClick(arg) {
+    console.log(this.data)
     alert('date click! ' + arg.dateStr)
   }
-
 
 }

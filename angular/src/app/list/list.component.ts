@@ -4,7 +4,7 @@ import { Birthday } from '../birthday/birthday'
 import { Component, OnInit } from '@angular/core';
 import { formatDate } from '@angular/common';
 import { Router } from '@angular/router';
-import { map, filter } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 
 
@@ -15,8 +15,13 @@ import { map, filter } from 'rxjs/operators';
 })
 export class ListComponent implements OnInit {
 
+  birthdays: Observable<Birthday[]>
+  pastBirthdays: Observable<Birthday[]>
+  currentBirthdays: Observable<Birthday[]>
+  nextBirthdays: Observable<Birthday[]>
   currentDate = new Date();
   formatCurrentDate = formatDate(this.currentDate, 'yyyy-MM-dd', 'en-US');
+
   constructor(
     private birthdayService: BirthdayService,
     private router: Router
@@ -24,31 +29,31 @@ export class ListComponent implements OnInit {
 
   ngOnInit(): void {
     this.reloadData();
-    const tempCurrent = new Date(this.formatCurrentDate);
     this.pastBirthdays = this.birthdays.pipe(
       map(items => items.filter((day) => {
-        const tempArrayDay = new Date(day.date);
-        return tempCurrent > tempArrayDay;
+        const formatTempArrayDay = formatDate(day.date, 'yyyy-MM-dd', 'en-US');
+        console.log(formatTempArrayDay+" "+formatTempArrayDay)
+        return this.formatCurrentDate > formatTempArrayDay;
       }))
     );
     this.currentBirthdays = this.birthdays.pipe(
       map(items => items.filter((day) => {
-        const tempArrayDay = new Date(day.date);
-        return +tempCurrent == +tempArrayDay;
+        const formatTempArrayDay = formatDate(day.date, 'yyyy-MM-dd', 'en-US');
+        console.log(formatTempArrayDay+" "+formatTempArrayDay)
+        return this.formatCurrentDate == formatTempArrayDay;
       }))
     );
     this.nextBirthdays = this.birthdays.pipe(
       map(items => items.filter((day) => {
-        const tempArrayDay = new Date(day.date);
-        return tempCurrent < tempArrayDay;
+        const formatTempArrayDay = formatDate(day.date, 'yyyy-MM-dd', 'en-US');
+        console.log(formatTempArrayDay+" "+formatTempArrayDay)
+        return this.formatCurrentDate < formatTempArrayDay;
       }))
     );
   }
+
   reloadData() {
     this.birthdays = this.birthdayService.getBirthdaysList();
   }
-  birthdays: Observable<Birthday[]>
-  pastBirthdays: Observable<Birthday[]>
-  currentBirthdays: Observable<Birthday[]>
-  nextBirthdays: Observable<Birthday[]>
+
 }

@@ -3,7 +3,7 @@ import { BirthdayService } from './../service/birthday.service';
 import { Birthday } from '../birthday/birthday'
 import { Component, OnInit } from '@angular/core';
 import { formatDate } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
@@ -18,6 +18,8 @@ export class ListComponent implements OnInit {
 
   birthday: Birthday = new Birthday();
   submitted = false;
+  updateId: number;
+  updateDate: string;
   birthdays: Observable<Birthday[]>
   pastBirthdays: Observable<Birthday[]>
   currentBirthdays: Observable<Birthday[]>
@@ -28,7 +30,8 @@ export class ListComponent implements OnInit {
   constructor(
     private birthdayService: BirthdayService,
     private router: Router,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private route: ActivatedRoute,
   ) { }
 
   ngOnInit(): void {
@@ -58,10 +61,10 @@ export class ListComponent implements OnInit {
   }
 
   open(content) {
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
-    }, (reason) => {
-    });
+    this.birthday = new Birthday();
+    this.modalService.open(content);
   }
+
 
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
@@ -103,4 +106,23 @@ export class ListComponent implements OnInit {
     );
     this.refresh();
   }
+
+  openUpdate(content, birthday: Birthday) {
+    this.updateDate = formatDate(birthday.date, 'yyyy-MM-dd', 'en-US');
+    this.updateId = birthday.id;
+    this.birthday = birthday;
+    this.modalService.open(content);
+  }
+  onSubmitUpdate() {
+    this.updateBirthday();
+  }
+  updateBirthday() {
+    this.birthday.date = new Date(this.updateDate);
+    this.birthdayService.updateBirthday(this.updateId, this.birthday).subscribe(
+      (data) => { },
+      (error) => console.log(error)
+    );
+    this.birthday = new Birthday();
+  }
+
 }

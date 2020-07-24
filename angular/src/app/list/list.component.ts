@@ -56,6 +56,7 @@ export class ListComponent implements OnInit {
   reloadData() {
     this.birthdays = this.birthdayService.getBirthdaysList();
   }
+
   open(content) {
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
     }, (reason) => {
@@ -93,4 +94,13 @@ export class ListComponent implements OnInit {
     window.location.reload();
   }
 
+  deleteBirthday(id: number) {
+    this.birthdayService.deleteBirthday(id).subscribe(
+      (data) => {
+        this.reloadData();
+      },
+      (error) => console.log(error)
+    );
+    this.refresh();
+  }
 }

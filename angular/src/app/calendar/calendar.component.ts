@@ -16,6 +16,8 @@ export class CalendarComponent implements OnInit {
 
   data = [];
   birthdays: Observable<Birthday[]>
+  currentDate = new Date();
+  formatCurrentDate = formatDate(this.currentDate, 'yyyy-MM-dd', 'en-US');
 
   constructor(private birthdayService: BirthdayService) { }
 
@@ -30,7 +32,14 @@ export class CalendarComponent implements OnInit {
     this.birthdays.subscribe(elements => {
       elements.forEach((day) => {
         const formatTempDate = formatDate(day.date, 'yyyy-MM-dd', 'en-US');
-        this.data.push({ title: day.title, date: formatTempDate, color: '#57de64' })
+        if(this.formatCurrentDate>formatTempDate){
+          this.data.push({ title: day.title, date: formatTempDate, color: '#DC3545'})    
+        }else if(this.formatCurrentDate<formatTempDate){
+          this.data.push({ title: day.title, date: formatTempDate, color: '#6C757D'})    
+        }else{
+          this.data.push({ title: day.title, date: formatTempDate, color: '#17A2B8'})      
+        }
+        
         this.calendarOptions.events = this.data;
       })
     })

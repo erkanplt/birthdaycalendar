@@ -44,8 +44,9 @@ export class CalendarComponent implements OnInit {
   };
 
   handleDateClick(arg) {
-    console.log(this.data)
     alert('date click! ' + arg.dateStr)
+    console.log(this.calendarOptions.events)
   }
+  
 
 }

@@ -5,6 +5,7 @@ import { Component, OnInit } from '@angular/core';
 import { formatDate } from '@angular/common';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -15,6 +16,8 @@ import { map } from 'rxjs/operators';
 })
 export class ListComponent implements OnInit {
 
+  birthday: Birthday = new Birthday();
+  submitted = false;
   birthdays: Observable<Birthday[]>
   pastBirthdays: Observable<Birthday[]>
   currentBirthdays: Observable<Birthday[]>
@@ -24,7 +27,8 @@ export class ListComponent implements OnInit {
 
   constructor(
     private birthdayService: BirthdayService,
-    private router: Router
+    private router: Router,
+    private modalService: NgbModal
   ) { }
 
   ngOnInit(): void {
@@ -32,21 +36,18 @@ export class ListComponent implements OnInit {
     this.pastBirthdays = this.birthdays.pipe(
       map(items => items.filter((day) => {
         const formatTempArrayDay = formatDate(day.date, 'yyyy-MM-dd', 'en-US');
-        console.log(formatTempArrayDay+" "+formatTempArrayDay)
         return this.formatCurrentDate > formatTempArrayDay;
       }))
     );
     this.currentBirthdays = this.birthdays.pipe(
       map(items => items.filter((day) => {
         const formatTempArrayDay = formatDate(day.date, 'yyyy-MM-dd', 'en-US');
-        console.log(formatTempArrayDay+" "+formatTempArrayDay)
         return this.formatCurrentDate == formatTempArrayDay;
       }))
     );
     this.nextBirthdays = this.birthdays.pipe(
       map(items => items.filter((day) => {
         const formatTempArrayDay = formatDate(day.date, 'yyyy-MM-dd', 'en-US');
-        console.log(formatTempArrayDay+" "+formatTempArrayDay)
         return this.formatCurrentDate < formatTempArrayDay;
       }))
     );
@@ -54,6 +55,42 @@ export class ListComponent implements OnInit {
 
   reloadData() {
     this.birthdays = this.birthdayService.getBirthdaysList();
+  }
+  open(content) {
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
+    }, (reason) => {
+    });
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+
+  onSubmit() {
+    this.submitted = true;
+    this.save();
+  }
+
+  save() {
+    this.birthdayService.createBirthday(this.birthday).subscribe(
+      (data) => { },
+      (error) => console.log(error)
+    );
+    this.birthday = new Birthday();
+  }
+
+  newProduct(): void {
+    this.submitted = false;
+    this.birthday = new Birthday();
+  }
+  refresh(): void {
+    window.location.reload();
   }
 
 }

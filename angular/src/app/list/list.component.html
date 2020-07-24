@@ -1,3 +1,36 @@
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Doğum Günü Ekle</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form #birthdayAddForm="ngForm" (ngSubmit)="onSubmit()">
+            <div class="form-group ">
+                <label for="date">Doğum Tarihi</label>
+                <div class="form-group">
+                    <div class="input-group mb-3">
+                        <input type="date" class="form-control" data-date-format="YYYY-MM-DD" id="date" #date="ngModel"
+                            [(ngModel)]="birthday.date" name="date" required>
+                    </div>
+                    <label for="title">Kimin Doğum Günü?</label>
+                    <input type="input" class="form-control" id="title" placeholder="İsim giriniz" #title="ngModel"
+                        [(ngModel)]="birthday.title" name="title" required>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary" [disabled]="birthdayAddForm.invalid"
+                    (click)="refresh()">Kaydet</button>
+            </div>
+        </form>
+    </div>
+</ng-template>
+
+<div class="text-center">
+    <button class="btn btn-lg btn-outline-success" (click)="open(content)">Doğum Günü Ekle</button>
+</div>
+<hr>
 <div class="row">
     <div class="col-md-4">
         <div class="my-3 p-3 bg-danger rounded box-shadow">

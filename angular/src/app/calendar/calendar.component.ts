@@ -14,13 +14,16 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./calendar.component.css']
 })
 export class CalendarComponent implements OnInit {
-
+  
   data = [];
   birthdays: Observable<Birthday[]>
   currentDate = new Date();
   formatCurrentDate = formatDate(this.currentDate, 'yyyy-MM-dd', 'en-US');
   infoEventTitle: string;
   infoEventDate: string;
+  birthday: Birthday = new Birthday();
+  submitted = false;
+  tempDate:Date;
 
   constructor(private birthdayService: BirthdayService, private modalService: NgbModal) { }
 
@@ -52,9 +55,14 @@ export class CalendarComponent implements OnInit {
     height: 600,
     locale: trLocale,
     initialView: 'dayGridMonth',
+    dateClick:this.handleDateClick.bind(this),
     eventClick: this.handleEventClick.bind(this)
   };
 
+  handleDateClick(arg){
+    this.tempDate=new Date(arg.dateStr);
+    document.getElementById("addBirthdayButton").click();
+  }
   handleEventClick(arg) {
     this.infoEventTitle = arg.event._def.title;
     this.infoEventDate = formatDate(arg.event._instance.range.start, 'yyyy-MM-dd', 'en-US')
@@ -63,6 +71,34 @@ export class CalendarComponent implements OnInit {
 
   openEventView(content) {
     this.modalService.open(content);
+  }
+
+  open(content) {
+    this.birthday = new Birthday();
+    this.modalService.open(content);
+  }
+
+  
+  onSubmit() {
+    this.submitted = true;
+    this.save();
+  }
+
+  save() {
+    this.birthday.date=this.tempDate;
+    this.birthdayService.createBirthday(this.birthday).subscribe(
+      (data) => { },
+      (error) => console.log(error)
+    );
+    this.birthday = new Birthday();
+  }
+
+  newBirthday(): void {
+    this.submitted = false;
+    this.birthday = new Birthday();
+  }
+  refresh(): void {
+    window.location.reload();
   }
 
 }

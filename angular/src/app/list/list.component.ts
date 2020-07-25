@@ -89,7 +89,7 @@ export class ListComponent implements OnInit {
     this.birthday = new Birthday();
   }
 
-  newProduct(): void {
+  newBirthday(): void {
     this.submitted = false;
     this.birthday = new Birthday();
   }

@@ -5,6 +5,7 @@ import trLocale from '@fullcalendar/core/locales/tr';
 import { Observable } from 'rxjs';
 import { BirthdayService } from '../service/birthday.service';
 import { formatDate } from '@angular/common';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
@@ -18,8 +19,10 @@ export class CalendarComponent implements OnInit {
   birthdays: Observable<Birthday[]>
   currentDate = new Date();
   formatCurrentDate = formatDate(this.currentDate, 'yyyy-MM-dd', 'en-US');
+  infoEventTitle: string;
+  infoEventDate: string;
 
-  constructor(private birthdayService: BirthdayService) { }
+  constructor(private birthdayService: BirthdayService, private modalService: NgbModal) { }
 
   ngOnInit(): void {
 
@@ -49,13 +52,17 @@ export class CalendarComponent implements OnInit {
     height: 600,
     locale: trLocale,
     initialView: 'dayGridMonth',
-    dateClick: this.handleDateClick.bind(this)
+    eventClick: this.handleEventClick.bind(this)
   };
 
-  handleDateClick(arg) {
-    alert('date click! ' + arg.dateStr)
-    console.log(this.calendarOptions.events)
+  handleEventClick(arg) {
+    this.infoEventTitle = arg.event._def.title;
+    this.infoEventDate = formatDate(arg.event._instance.range.start, 'yyyy-MM-dd', 'en-US')
+    document.getElementById("infoEventButton").click();
   }
-  
+
+  openEventView(content) {
+    this.modalService.open(content);
+  }
 
 }

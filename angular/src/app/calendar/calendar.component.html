@@ -1,1 +1,15 @@
+<ng-template #contentEventView let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Doğum Günü Detayları</h4>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p><i class="text-primary fa fa-user mr-2"></i> {{infoEventTitle}}</p>
+      <p><i class="text-primary fa fa-calendar mr-2"></i>{{infoEventDate}}</p>
+    </div>
+  </ng-template>
+  
+<button class="btn btn-lg btn-outline-primary" id="infoEventButton" [hidden]="true" (click)="openEventView(contentEventView)">Open Modal</button>
 <full-calendar [options]="calendarOptions"></full-calendar>

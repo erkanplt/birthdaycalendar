@@ -26,6 +26,7 @@ export class ListComponent implements OnInit {
   nextBirthdays: Observable<Birthday[]>
   currentDate = new Date();
   formatCurrentDate = formatDate(this.currentDate, 'yyyy-MM-dd', 'en-US');
+  saveYearCounter: number=1;
 
   constructor(
     private birthdayService: BirthdayService,
@@ -82,11 +83,26 @@ export class ListComponent implements OnInit {
   }
 
   save() {
+    var loopControl = true;
+    for (var yearCounter = 0; yearCounter < this.saveYearCounter; yearCounter++) {
+      if (loopControl) {
+        this.saveWithYear(0);
+        loopControl = false;
+      } else {
+        this.saveWithYear(1);
+      }
+    }
+    this.birthday = new Birthday();
+  }
+
+  saveWithYear(a:number) {
+    var tempBirthdayDate=new Date(this.birthday.date);
+    tempBirthdayDate.setFullYear(tempBirthdayDate.getFullYear()+a)
+    this.birthday.date=tempBirthdayDate;
     this.birthdayService.createBirthday(this.birthday).subscribe(
       (data) => { },
       (error) => console.log(error)
     );
-    this.birthday = new Birthday();
   }
 
   newBirthday(): void {

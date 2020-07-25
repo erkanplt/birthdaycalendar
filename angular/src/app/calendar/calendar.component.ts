@@ -14,7 +14,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./calendar.component.css']
 })
 export class CalendarComponent implements OnInit {
-  
+
   data = [];
   birthdays: Observable<Birthday[]>
   currentDate = new Date();
@@ -23,7 +23,8 @@ export class CalendarComponent implements OnInit {
   infoEventDate: string;
   birthday: Birthday = new Birthday();
   submitted = false;
-  tempDate:Date;
+  tempDate: Date;
+  saveYearCounter: number=1;
 
   constructor(private birthdayService: BirthdayService, private modalService: NgbModal) { }
 
@@ -38,14 +39,14 @@ export class CalendarComponent implements OnInit {
     this.birthdays.subscribe(elements => {
       elements.forEach((day) => {
         const formatTempDate = formatDate(day.date, 'yyyy-MM-dd', 'en-US');
-        if(this.formatCurrentDate>formatTempDate){
-          this.data.push({ title: day.title, date: formatTempDate, color: '#DC3545'})    
-        }else if(this.formatCurrentDate<formatTempDate){
-          this.data.push({ title: day.title, date: formatTempDate, color: '#6C757D'})    
-        }else{
-          this.data.push({ title: day.title, date: formatTempDate, color: '#17A2B8'})      
+        if (this.formatCurrentDate > formatTempDate) {
+          this.data.push({ title: day.title, date: formatTempDate, color: '#DC3545' })
+        } else if (this.formatCurrentDate < formatTempDate) {
+          this.data.push({ title: day.title, date: formatTempDate, color: '#6C757D' })
+        } else {
+          this.data.push({ title: day.title, date: formatTempDate, color: '#17A2B8' })
         }
-        
+
         this.calendarOptions.events = this.data;
       })
     })
@@ -55,12 +56,12 @@ export class CalendarComponent implements OnInit {
     height: 600,
     locale: trLocale,
     initialView: 'dayGridMonth',
-    dateClick:this.handleDateClick.bind(this),
+    dateClick: this.handleDateClick.bind(this),
     eventClick: this.handleEventClick.bind(this)
   };
 
-  handleDateClick(arg){
-    this.tempDate=new Date(arg.dateStr);
+  handleDateClick(arg) {
+    this.tempDate = new Date(arg.dateStr);
     document.getElementById("addBirthdayButton").click();
   }
   handleEventClick(arg) {
@@ -78,19 +79,32 @@ export class CalendarComponent implements OnInit {
     this.modalService.open(content);
   }
 
-  
+
   onSubmit() {
     this.submitted = true;
     this.save();
   }
 
   save() {
-    this.birthday.date=this.tempDate;
+    var loopControl = true;
+    for (var yearCounter = 0; yearCounter < this.saveYearCounter; yearCounter++) {
+      if (loopControl) {
+        this.saveWithYear(0);
+        loopControl = false;
+      } else {
+        this.saveWithYear(1);
+      }
+    }
+    this.birthday = new Birthday();
+  }
+
+  saveWithYear(a:number) {
+    this.tempDate.setFullYear(this.tempDate.getFullYear()+a);
+    this.birthday.date = this.tempDate;
     this.birthdayService.createBirthday(this.birthday).subscribe(
       (data) => { },
       (error) => console.log(error)
     );
-    this.birthday = new Birthday();
   }
 
   newBirthday(): void {

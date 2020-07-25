@@ -30,15 +30,17 @@
     <div class="modal-body">
         <form #birthdayAddForm="ngForm" (ngSubmit)="onSubmit()">
             <div class="form-group ">
-                
                 <div class="form-group">
                     <div class="input-group mb-3">
-                        <input [hidden]="true" type="date" class="form-control" data-date-format="YYYY-MM-DD" id="date" #date="ngModel"
-                            [(ngModel)]="tempDate" name="date" required>
+                        <input [hidden]="true" type="date" class="form-control" data-date-format="YYYY-MM-DD" id="date"
+                            #date="ngModel" [(ngModel)]="tempDate" name="date" required>
                     </div>
                     <label for="title">Kimin Doğum Günü?</label>
                     <input type="input" class="form-control" id="title" placeholder="İsim giriniz" #title="ngModel"
                         [(ngModel)]="birthday.title" name="title" required>
+                    <label for="saveYearCounter">Kaç Yıl Boyunca Takvime Kaydedilsin?</label>
+                    <input id="yearCount" class="form-control" type="number" name="yearCount" placeholder="Yıl giriniz"
+                        #yearCount="ngModel" [(ngModel)]="saveYearCounter"><br>
                 </div>
             </div>
             <div class="modal-footer">

@@ -22,12 +22,15 @@
                     </div>
                     <label for="title">Kimin Doğum Günü?</label>
                     <input type="input" class="form-control" id="title" placeholder="İsim giriniz" #title="ngModel"
-                        [(ngModel)]="birthday.title" name="title" required>
+                        [(ngModel)]="birthday.title" name="title" required><br>
+                    <label for="saveYearCounter">Kaç Yıl Boyunca Takvime Kaydedilsin?</label>
+                    <input id="yearCount" class="form-control" type="number" name="yearCount" placeholder="Yıl giriniz"
+                        #yearCount="ngModel" [(ngModel)]="saveYearCounter" required>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-primary" [disabled]="birthdayAddForm.invalid"
-                    (click)="refresh()">Kaydet</button>
+                (click)="refresh()">Kaydet</button>
             </div>
         </form>
     </div>
@@ -78,7 +81,7 @@
                                 (click)="deleteBirthday(birthday.id)">
                                 <i class="fa fa-trash"></i></button>
                             <button type="button" class="btn btn-danger btn-sm text-white"
-                            (click)="openUpdate(contentUpdate,birthday)">
+                                (click)="openUpdate(contentUpdate,birthday)">
                                 <i class="fa fa-edit"></i>
                             </button>
                         </div>

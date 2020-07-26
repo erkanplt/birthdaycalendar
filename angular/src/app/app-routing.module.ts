@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { CalendarComponent } from './calendar/calendar.component';
 
 const routes: Routes = [
+  { path: '', redirectTo: 'list', pathMatch: 'full'},
   { path: 'calendar', component: CalendarComponent },
   { path: 'list', component: ListComponent },
 ];

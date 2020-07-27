@@ -93,6 +93,7 @@ export class ListComponent implements OnInit {
       }
     }
     this.birthday = new Birthday();
+    this.gotoList();
   }
 
   saveWithYear(a:number) {
@@ -120,7 +121,7 @@ export class ListComponent implements OnInit {
       },
       (error) => console.log(error)
     );
-    this.refresh();
+    this.gotoList();
   }
 
   openUpdate(content, birthday: Birthday) {
@@ -139,6 +140,13 @@ export class ListComponent implements OnInit {
       (error) => console.log(error)
     );
     this.birthday = new Birthday();
+    this.gotoList();
   }
+
+  gotoList() {
+    this.router.navigate(['/list']);
+    this.refresh();
+  }
+
 
 }

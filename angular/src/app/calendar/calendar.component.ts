@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { BirthdayService } from '../service/birthday.service';
 import { formatDate } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -26,7 +27,7 @@ export class CalendarComponent implements OnInit {
   tempDate: Date;
   saveYearCounter: number=1;
 
-  constructor(private birthdayService: BirthdayService, private modalService: NgbModal) { }
+  constructor(private birthdayService: BirthdayService, private modalService: NgbModal,private router: Router) { }
 
   ngOnInit(): void {
 
@@ -96,6 +97,7 @@ export class CalendarComponent implements OnInit {
       }
     }
     this.birthday = new Birthday();
+    this.gotoList();
   }
 
   saveWithYear(a:number) {
@@ -114,5 +116,8 @@ export class CalendarComponent implements OnInit {
   refresh(): void {
     window.location.reload();
   }
-
+  gotoList() {
+    this.router.navigate(['/calendar']);
+    this.refresh();
+  }
 }

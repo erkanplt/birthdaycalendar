@@ -1,3 +1,4 @@
+<app-loader></app-loader>
 <div class="text-center">
     <button class="btn btn-lg btn-outline-success" (click)="open(content)">
         <i class="fa fa-plus"></i>
@@ -29,8 +30,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary" [disabled]="birthdayAddForm.invalid"
-                (click)="refresh()">Kaydet</button>
+                <button type="submit" class="btn btn-primary" [disabled]="birthdayAddForm.invalid">Kaydet</button>
             </div>
         </form>
     </div>
@@ -58,8 +58,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary" [disabled]="birthdayUpdateForm.invalid"
-                    (click)="refresh()">Güncelle</button>
+                <button type="submit" class="btn btn-primary" [disabled]="birthdayUpdateForm.invalid">Güncelle</button>
             </div>
         </form>
     </div>

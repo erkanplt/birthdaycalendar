@@ -10,8 +10,13 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { ListComponent } from './list/list.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule }   from '@angular/forms';
+import { LoaderComponent } from './loader/loader/loader.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { LoaderService } from './service/loader.service';
+import { LoaderInterceptor } from './interceptor/loader.interceptor';
+
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
   interactionPlugin
@@ -25,6 +30,7 @@ FullCalendarModule.registerPlugins([
     SidebarMenuComponent,
     CalendarComponent,
     ListComponent,
+    LoaderComponent,
   ],
   imports: [
     BrowserModule,
@@ -32,9 +38,11 @@ FullCalendarModule.registerPlugins([
     NgbModule,
     FullCalendarModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    MatProgressSpinnerModule
   ],
-  providers: [],
+  providers: [LoaderService,
+    { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true} ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

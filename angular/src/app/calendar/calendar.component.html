@@ -1,3 +1,4 @@
+<app-loader></app-loader>
 <ng-template #contentEventView let-c="close" let-d="dismiss">
     <div class="modal-header">
         <h4 class="modal-title" id="modal-basic-title">Doğum Günü Detayları</h4>
@@ -37,15 +38,14 @@
                     </div>
                     <label for="title">Kimin Doğum Günü?</label>
                     <input type="input" class="form-control" id="title" placeholder="İsim giriniz" #title="ngModel"
-                        [(ngModel)]="birthday.title" name="title" required>
+                        [(ngModel)]="birthday.title" name="title" required><br>
                     <label for="saveYearCounter">Kaç Yıl Boyunca Takvime Kaydedilsin?</label>
                     <input id="yearCount" class="form-control" type="number" name="yearCount" placeholder="Yıl giriniz"
                         #yearCount="ngModel" [(ngModel)]="saveYearCounter"><br>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary" [disabled]="birthdayAddForm.invalid"
-                    (click)="refresh()">Kaydet</button>
+                <button type="submit" class="btn btn-primary" [disabled]="birthdayAddForm.invalid">Kaydet</button>
             </div>
         </form>
     </div>

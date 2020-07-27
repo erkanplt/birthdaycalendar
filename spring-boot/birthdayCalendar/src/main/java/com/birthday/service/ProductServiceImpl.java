@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,8 +41,8 @@ public class ProductServiceImpl implements BirthdayService {
 	}
 
 	@Override
-	public List<Birthday> getAllBirthdays() {
-		return birthdayRepository.findAll();
+	public List<Birthday> getAllBirthdays(Sort sort) {
+		return birthdayRepository.findAll(sort);
 	}
 
 	@Override

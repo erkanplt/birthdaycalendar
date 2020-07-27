@@ -1,4 +1,9 @@
+<!-- Spinner -->
 <app-loader></app-loader>
+
+<!-- Doğum Günü Detayları Penceresi -->
+<button class="btn btn-lg btn-outline-primary" id="infoEventButton" [hidden]="true"
+    (click)="openEventView(contentEventView)">Open Event View Modal</button>
 <ng-template #contentEventView let-c="close" let-d="dismiss">
     <div class="modal-header">
         <h4 class="modal-title" id="modal-basic-title">Doğum Günü Detayları</h4>
@@ -12,16 +17,12 @@
     </div>
 </ng-template>
 
-<button class="btn btn-lg btn-outline-primary" id="infoEventButton" [hidden]="true"
-    (click)="openEventView(contentEventView)">Open Modal</button>
-
+<!-- Doğum Günü Ekle Penceresi -->
 <div class="text-center">
-    <button class="btn btn-lg btn-outline-success" [hidden]="true" id="addBirthdayButton" (click)="open(contentAdd)">
-        <i class="fa fa-plus"></i>
-        Doğum Günü Ekle</button>
+    <button class="btn btn-lg btn-outline-success" [hidden]="true" id="addBirthdayButton"
+        (click)="openEventAdd(contentEventAdd)">Doğum Günü Ekle</button>
 </div>
-<hr>
-<ng-template #contentAdd let-modal>
+<ng-template #contentEventAdd let-modal>
     <div class="modal-header">
         <h4 class="modal-title" id="modal-basic-title">Doğum Günü Ekle</h4>
         <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
@@ -29,16 +30,16 @@
         </button>
     </div>
     <div class="modal-body">
-        <form #birthdayAddForm="ngForm" (ngSubmit)="onSubmit()">
+        <form #birthdayAddForm="ngForm" (ngSubmit)="onSubmitSave()">
             <div class="form-group ">
                 <div class="form-group">
                     <div class="input-group mb-3">
                         <input [hidden]="true" type="date" class="form-control" data-date-format="YYYY-MM-DD" id="date"
-                            #date="ngModel" [(ngModel)]="tempDate" name="date" required>
+                            #date="ngModel" [(ngModel)]="saveTempDate" name="date" required>
                     </div>
                     <label for="title">Kimin Doğum Günü?</label>
                     <input type="input" class="form-control" id="title" placeholder="İsim giriniz" #title="ngModel"
-                        [(ngModel)]="birthday.title" name="title" required><br>
+                        [(ngModel)]="birthdayObject.title" name="title" required><br>
                     <label for="saveYearCounter">Kaç Yıl Boyunca Takvime Kaydedilsin?</label>
                     <input id="yearCount" class="form-control" type="number" name="yearCount" placeholder="Yıl giriniz"
                         #yearCount="ngModel" [(ngModel)]="saveYearCounter"><br>
@@ -50,4 +51,6 @@
         </form>
     </div>
 </ng-template>
+
+<!-- Takvim Yüklemesi -->
 <full-calendar [options]="calendarOptions"></full-calendar>

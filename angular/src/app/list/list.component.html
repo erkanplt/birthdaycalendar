@@ -1,11 +1,14 @@
+<!-- Spinner -->
 <app-loader></app-loader>
+
+<!-- Doğum Günü Ekle Butonu ve Penceresi -->
 <div class="text-center">
-    <button class="btn btn-lg btn-outline-success" (click)="open(content)">
+    <button class="btn btn-lg btn-outline-success" (click)="openAddBirthday(contentAddBirthday)">
         <i class="fa fa-plus"></i>
         Doğum Günü Ekle</button>
 </div>
 <hr>
-<ng-template #content let-modal>
+<ng-template #contentAddBirthday let-modal>
     <div class="modal-header">
         <h4 class="modal-title" id="modal-basic-title">Doğum Günü Ekle</h4>
         <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
@@ -13,17 +16,17 @@
         </button>
     </div>
     <div class="modal-body">
-        <form #birthdayAddForm="ngForm" (ngSubmit)="onSubmit()">
+        <form #birthdayAddForm="ngForm" (ngSubmit)="onSubmitSave()">
             <div class="form-group ">
                 <label for="date">Doğum Tarihi</label>
                 <div class="form-group">
                     <div class="input-group mb-3">
                         <input type="date" class="form-control" data-date-format="YYYY-MM-DD" id="date" #date="ngModel"
-                            [(ngModel)]="birthday.date" name="date" required>
+                            [(ngModel)]="birthdayObject.date" name="date" required>
                     </div>
                     <label for="title">Kimin Doğum Günü?</label>
                     <input type="input" class="form-control" id="title" placeholder="İsim giriniz" #title="ngModel"
-                        [(ngModel)]="birthday.title" name="title" required><br>
+                        [(ngModel)]="birthdayObject.title" name="title" required><br>
                     <label for="saveYearCounter">Kaç Yıl Boyunca Takvime Kaydedilsin?</label>
                     <input id="yearCount" class="form-control" type="number" name="yearCount" placeholder="Yıl giriniz"
                         #yearCount="ngModel" [(ngModel)]="saveYearCounter" required>
@@ -36,10 +39,11 @@
     </div>
 </ng-template>
 
+<!-- Doğum Günü Güncelle Penceresi -->
 <ng-template #contentUpdate let-modal>
     <div class="modal-header">
         <h4 class="modal-title" id="modal-basic-title">Doğum Günü Güncelle</h4>
-        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click'); refresh()">
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
             <span aria-hidden=" true">&times;</span>
         </button>
     </div>
@@ -50,11 +54,11 @@
                 <div class="form-group">
                     <div class="input-group mb-3">
                         <input type="date" class="form-control" data-date-format="YYYY-MM-DD" id="date" #date="ngModel"
-                            [(ngModel)]="updateDate" name="date" value="2018-07-22" required>
+                            [(ngModel)]="updateTempDate" name="date" value="2018-07-22" required>
                     </div>
                     <label for="title">Kimin Doğum Günü?</label>
                     <input type="input" class="form-control" id="title" placeholder="İsim giriniz" #title="ngModel"
-                        [(ngModel)]="birthday.title" name="title" required>
+                        [(ngModel)]="updateTempTitle" name="title" required>
                 </div>
             </div>
             <div class="modal-footer">
@@ -64,6 +68,7 @@
     </div>
 </ng-template>
 
+<!-- Üç doğum günü tablosu -->
 <div class="row">
     <div class="col-md-4">
         <div class="my-3 p-3 bg-danger rounded box-shadow">
